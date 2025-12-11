@@ -1,21 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Buggane: An interactive physics installation. Attempt to rebuild the roof of St. Trinian's against the chaotic forces of the Manx Buggane.">
-    <meta name="keywords" content="Buggane, Manx Folklore, Interactive Art, Physics Engine, Matter.js, Brutalist, Horror, St Trinians">
+    <meta name="description"
+        content="Buggane: An interactive physics installation. Attempt to rebuild the roof of St. Trinian's against the chaotic forces of the Manx Buggane.">
+    <meta name="keywords"
+        content="Buggane, Manx Folklore, Interactive Art, Physics Engine, Matter.js, Brutalist, Horror, St Trinians">
     <meta name="author" content="Jojo">
     <title>BUGGANE.IM | The Unfinished Work</title>
-    
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "VisualArtwork",
+          "@id": "https://buggane.im/#content",
+          "url": "https://buggane.im",
+          "name": "BUGGANE.IM | The Unfinished Work",
+          "description": "An interactive physics installation exploring Manx folklore. Attempt to rebuild the roof of St. Trinian's against the chaotic forces of the Buggane—a shape-shifting ogre who tears down all progress.",
+          "artMedium": "Interactive Physics Installation",
+          "artForm": "Digital Interactive Monument",
+          "inLanguage": "en-US",
+          "datePublished": "2025-01-01",
+          "publisher": { "@id": "https://unearth.im/#organization" },
+          "isPartOf": { "@id": "https://buggane.im/#website" },
+          "author": [
+            { "@id": "https://josiest.com/#person" },
+            { "@id": "https://felixvelas.co/#person" }
+          ],
+          "keywords": "Buggane, Manx Folklore, Interactive Art, Physics Engine, Matter.js, Brutalist, Horror, St Trinians"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://buggane.im/#website",
+          "url": "https://buggane.im",
+          "name": "BUGGANE.IM",
+          "publisher": { "@id": "https://unearth.im/#organization" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://unearth.im/#organization",
+          "name": "Unearth Heritage Foundry",
+          "alternateName": ["Unearth Foundry","Archive & Anvil","Unearth Anvil","Unearth Works","Cultural Infrastructure Foundry"],
+          "url": "https://unearth.im",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://unearth.im/favicon-32x32.png"
+          },
+          "foundingDate": "2024",
+          "sameAs": [
+            "https://twitter.com/unearthim",
+            "https://github.com/unearthim"
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://josiest.com/#person",
+          "name": "Josie Jefferson",
+          "url": "https://josiest.com",
+          "jobTitle": "Digital Archaeologist & Trust Architect",
+          "affiliation": { "@id": "https://unearth.im/#organization" },
+          "sameAs": ["https://notjojo.im"]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://felixvelas.co/#person",
+          "name": "Felix Velasco",
+          "url": "https://felixvelas.co",
+          "jobTitle": "Trust Architect & Digital Archaeologist",
+          "affiliation": { "@id": "https://unearth.im/#organization" },
+          "sameAs": ["https://www.linkedin.com/in/felix-velasco-b793015"]
+        }
+      ]
+    }
+    </script>
+
     <!-- Import Matter.js for Physics -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Roboto+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
 
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -50,7 +123,7 @@
             justify-content: space-between;
             padding: 20px;
             box-sizing: border-box;
-            border: 10px solid #222; 
+            border: 10px solid #222;
         }
 
         header {
@@ -61,7 +134,8 @@
         h1 {
             font-family: 'Rye', serif;
             font-size: 3rem;
-            color: #d63031; /* Unfinished Red */
+            color: #d63031;
+            /* Unfinished Red */
             margin: 0;
             letter-spacing: 5px;
             text-shadow: 4px 4px 0px #000;
@@ -138,8 +212,12 @@
             border-color: #d63031;
             color: #d63031;
         }
-        
-        .btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
 
         /* The Roof Line */
         #roof-line {
@@ -152,7 +230,7 @@
             opacity: 0.5;
             pointer-events: none;
         }
-        
+
         #roof-text {
             position: absolute;
             top: 20%;
@@ -170,7 +248,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 200;
             justify-content: center;
             align-items: center;
@@ -193,8 +271,12 @@
             border-bottom: 2px solid #333;
             padding-bottom: 10px;
         }
-        
-        #modal-content a { color: #d63031; text-decoration: none; border-bottom: 1px dotted #d63031; }
+
+        #modal-content a {
+            color: #d63031;
+            text-decoration: none;
+            border-bottom: 1px dotted #d63031;
+        }
 
         /* Start Screen */
         #start-screen {
@@ -212,338 +294,387 @@
             cursor: pointer;
         }
 
-        #start-screen h1 { margin-bottom: 20px; animation: shake 3s infinite; }
-        
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        #start-screen h1 {
+            margin-bottom: 20px;
+            animation: shake 3s infinite;
         }
 
+        @keyframes shake {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            60% {
+                transform: translate(-3px, 1px) rotate(0deg);
+            }
+
+            70% {
+                transform: translate(3px, 1px) rotate(-1deg);
+            }
+
+            80% {
+                transform: translate(-1px, -1px) rotate(1deg);
+            }
+
+            90% {
+                transform: translate(1px, 2px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(1px, -2px) rotate(-1deg);
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<div id="start-screen">
-    <h1>BUGGANE</h1>
-    <p style="letter-spacing: 3px; color: #666;">[ CLICK TO BUILD ]</p>
-</div>
-
-<!-- Modal -->
-<div id="modal-overlay">
-    <div id="modal-content">
-        <span id="close-modal" style="float:right; cursor:pointer; font-size:1.5rem;">&times;</span>
-        <h3>THE UNFINISHED WORK</h3>
-        <p>The Buggane is a shape-shifting ogre of Manx legend who famously tore the roof off St. Trinian's Church every time it was built.</p>
-        <p><strong>Your Task:</strong> Drag stones to build the tower. Reach the Red Line.</p>
-        <p><strong>The Buggane:</strong> An invisible force that hates progress. The higher you build, the angrier physics becomes.</p>
-        <p><strong>Microphone:</strong> If enabled, loud noises will summon the Buggane instantly to smash your work.</p>
-        <p style="margin-top: 30px; font-size: 0.8rem;">a digital monument by <a href="https://unearth.im" target="_blank">unearth heritage foundry</a></p>
+    <div id="start-screen">
+        <h1>BUGGANE</h1>
+        <p style="letter-spacing: 3px; color: #666;">[ CLICK TO BUILD ]</p>
     </div>
-</div>
 
-<div id="ui-layer">
-    <header>
-        <h1 id="title-btn">BUGGANE</h1>
-        <div class="subtitle">THE UNFINISHED WORK</div>
-        
-        <div id="controls">
-            <div class="btn" id="mic-btn" title="Enable Mic (Don't Scream)">
-                <svg id="icon-mic-off" viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-3.21 3.21l1.23 1.23c.57-.59 1.05-1.25 1.42-1.96l-1.23-1.23c-.27.7-.6 1.35-.99 1.96zM12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zM3.27 3L2 4.27l6.5 6.5L8.5 11c0 2.21 1.79 4 4 4 1.15 0 2.19-.48 2.96-1.25l4.27 4.27L21 16.73 3.27 3zM12 19c-2.76 0-5.26-1.2-6.93-3.13l-1.35 1.5C5.83 19.8 8.75 21 12 21s6.17-1.2 8.28-3.63l-1.35-1.5C17.26 17.8 14.76 19 12 19z"/></svg>
-                <svg id="icon-mic-on" viewBox="0 0 24 24" style="display:none;"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-            </div>
-            <div class="btn" id="reset-btn" title="Reset Stones">
-                <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-            </div>
+    <!-- Modal -->
+    <div id="modal-overlay">
+        <div id="modal-content">
+            <span id="close-modal" style="float:right; cursor:pointer; font-size:1.5rem;">&times;</span>
+            <h3>THE UNFINISHED WORK</h3>
+            <p>The Buggane is a shape-shifting ogre of Manx legend who famously tore the roof off St. Trinian's Church
+                every time it was built.</p>
+            <p><strong>Your Task:</strong> Drag stones to build the tower. Reach the Red Line.</p>
+            <p><strong>The Buggane:</strong> An invisible force that hates progress. The higher you build, the angrier
+                physics becomes.</p>
+            <p><strong>Microphone:</strong> If enabled, loud noises will summon the Buggane instantly to smash your
+                work.</p>
+            <p style="margin-top: 30px; font-size: 0.8rem;">a digital monument by <a href="https://unearth.im"
+                    target="_blank">unearth heritage foundry</a></p>
         </div>
-    </header>
-
-    <div id="spite-meter">
-        <div id="spite-fill"></div>
     </div>
-    <div id="spite-label">THE BUGGANE'S SPITE</div>
-    
-    <div id="roof-line"></div>
-    <div id="roof-text">THE ROOF (UNREACHABLE)</div>
-</div>
 
-<div id="canvas-container"></div>
+    <div id="ui-layer">
+        <header>
+            <h1 id="title-btn">BUGGANE</h1>
+            <div class="subtitle">THE UNFINISHED WORK</div>
 
-<script>
-    // Module aliases for Matter.js
-    const Engine = Matter.Engine,
-          Render = Matter.Render,
-          Runner = Matter.Runner,
-          Bodies = Matter.Bodies,
-          Composite = Matter.Composite,
-          Mouse = Matter.Mouse,
-          MouseConstraint = Matter.MouseConstraint,
-          Events = Matter.Events,
-          Body = Matter.Body,
-          Vector = Matter.Vector;
+            <div id="controls">
+                <div class="btn" id="mic-btn" title="Enable Mic (Don't Scream)">
+                    <svg id="icon-mic-off" viewBox="0 0 24 24">
+                        <path
+                            d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-3.21 3.21l1.23 1.23c.57-.59 1.05-1.25 1.42-1.96l-1.23-1.23c-.27.7-.6 1.35-.99 1.96zM12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zM3.27 3L2 4.27l6.5 6.5L8.5 11c0 2.21 1.79 4 4 4 1.15 0 2.19-.48 2.96-1.25l4.27 4.27L21 16.73 3.27 3zM12 19c-2.76 0-5.26-1.2-6.93-3.13l-1.35 1.5C5.83 19.8 8.75 21 12 21s6.17-1.2 8.28-3.63l-1.35-1.5C17.26 17.8 14.76 19 12 19z" />
+                    </svg>
+                    <svg id="icon-mic-on" viewBox="0 0 24 24" style="display:none;">
+                        <path
+                            d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z" />
+                    </svg>
+                </div>
+                <div class="btn" id="reset-btn" title="Reset Stones">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                    </svg>
+                </div>
+            </div>
+        </header>
 
-    // Game State
-    let engine, render, runner;
-    let stones = [];
-    let isRunning = false;
-    let spiteLevel = 0; // 0 to 100
-    
-    // Mic Input
-    let audioCtx, analyser, dataArray, micStream;
-    let isMicActive = false;
+        <div id="spite-meter">
+            <div id="spite-fill"></div>
+        </div>
+        <div id="spite-label">THE BUGGANE'S SPITE</div>
 
-    // UI Elements
-    const spiteFill = document.getElementById('spite-fill');
-    const micBtn = document.getElementById('mic-btn');
-    const iconMicOff = document.getElementById('icon-mic-off');
-    const iconMicOn = document.getElementById('icon-mic-on');
-    const startScreen = document.getElementById('start-screen');
-    const modalOverlay = document.getElementById('modal-overlay');
-    const titleBtn = document.getElementById('title-btn');
-    const closeModal = document.getElementById('close-modal');
-    const resetBtn = document.getElementById('reset-btn');
+        <div id="roof-line"></div>
+        <div id="roof-text">THE ROOF (UNREACHABLE)</div>
+    </div>
 
-    // --- AUDIO SYSTEM (Grinding Stones) ---
-    function initAudio() {
-        if (audioCtx) return;
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
+    <div id="canvas-container"></div>
 
-    function playGrind() {
-        if (!audioCtx) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        // Low Sawtooth for mechanical/stone grinding feel
-        osc.type = 'sawtooth';
-        osc.frequency.value = 40 + Math.random() * 20;
-        
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
-        
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 1);
-    }
+    <script>
+        // Module aliases for Matter.js
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Bodies = Matter.Bodies,
+            Composite = Matter.Composite,
+            Mouse = Matter.Mouse,
+            MouseConstraint = Matter.MouseConstraint,
+            Events = Matter.Events,
+            Body = Matter.Body,
+            Vector = Matter.Vector;
 
-    // --- PHYSICS INIT ---
-    function initPhysics() {
-        // Create engine
-        engine = Engine.create();
-        engine.world.gravity.y = 1; // Standard gravity
+        // Game State
+        let engine, render, runner;
+        let stones = [];
+        let isRunning = false;
+        let spiteLevel = 0; // 0 to 100
 
-        // Create renderer
-        const container = document.getElementById('canvas-container');
-        render = Render.create({
-            element: container,
-            engine: engine,
-            options: {
-                width: window.innerWidth,
-                height: window.innerHeight,
-                background: '#111',
-                wireframes: false, // Solid shapes
-                showAngleIndicator: false
-            }
-        });
+        // Mic Input
+        let audioCtx, analyser, dataArray, micStream;
+        let isMicActive = false;
 
-        // Create Boundaries
-        const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 30, window.innerWidth, 60, { 
-            isStatic: true,
-            render: { fillStyle: '#222' } 
-        });
-        
-        const wallLeft = Bodies.rectangle(-30, window.innerHeight / 2, 60, window.innerHeight, { isStatic: true });
-        const wallRight = Bodies.rectangle(window.innerWidth + 30, window.innerHeight / 2, 60, window.innerHeight, { isStatic: true });
+        // UI Elements
+        const spiteFill = document.getElementById('spite-fill');
+        const micBtn = document.getElementById('mic-btn');
+        const iconMicOff = document.getElementById('icon-mic-off');
+        const iconMicOn = document.getElementById('icon-mic-on');
+        const startScreen = document.getElementById('start-screen');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const titleBtn = document.getElementById('title-btn');
+        const closeModal = document.getElementById('close-modal');
+        const resetBtn = document.getElementById('reset-btn');
 
-        Composite.add(engine.world, [ground, wallLeft, wallRight]);
+        // --- AUDIO SYSTEM (Grinding Stones) ---
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
 
-        // Mouse Control
-        const mouse = Mouse.create(render.canvas);
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                render: { visible: false }
-            }
-        });
-        Composite.add(engine.world, mouseConstraint);
-        render.mouse = mouse;
+        function playGrind() {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            // Low Sawtooth for mechanical/stone grinding feel
+            osc.type = 'sawtooth';
+            osc.frequency.value = 40 + Math.random() * 20;
 
-        // Spawn Stones
-        spawnStones();
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
 
-        // Run
-        Render.run(render);
-        runner = Runner.create();
-        Runner.run(runner, engine);
-        
-        // Loop logic for Buggane
-        Events.on(engine, 'beforeUpdate', updateBuggane);
-        Events.on(engine, 'collisionStart', (event) => {
-             // Play sound on impact depending on force
-             event.pairs.forEach((pair) => {
-                 // Simple approximation of impact force
-                 if (pair.bodyA.speed > 1 || pair.bodyB.speed > 1) {
-                     playGrind();
-                 }
-             });
-        });
-    }
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1);
+        }
 
-    function spawnStones() {
-        // Clear old stones
-        stones.forEach(b => Composite.remove(engine.world, b));
-        stones = [];
+        // --- PHYSICS INIT ---
+        function initPhysics() {
+            // Create engine
+            engine = Engine.create();
+            engine.world.gravity.y = 1; // Standard gravity
 
-        // Generate 20 irregular blocks
-        for (let i = 0; i < 15; i++) {
-            const x = Math.random() * (window.innerWidth - 100) + 50;
-            const y = (window.innerHeight - 50) - (i * 30); // Stack them initially loosely
-            const width = 40 + Math.random() * 60;
-            const height = 30 + Math.random() * 40;
-            
-            // Random polygon or rectangle
-            const stone = Bodies.rectangle(x, y, width, height, {
-                restitution: 0.1, // Not too bouncy (heavy stone)
-                friction: 0.8, // Grippy
-                density: 0.005, // Heavy
-                render: {
-                    fillStyle: '#444',
-                    strokeStyle: '#222',
-                    lineWidth: 2
+            // Create renderer
+            const container = document.getElementById('canvas-container');
+            render = Render.create({
+                element: container,
+                engine: engine,
+                options: {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    background: '#111',
+                    wireframes: false, // Solid shapes
+                    showAngleIndicator: false
                 }
             });
-            
-            stones.push(stone);
+
+            // Create Boundaries
+            const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 30, window.innerWidth, 60, {
+                isStatic: true,
+                render: { fillStyle: '#222' }
+            });
+
+            const wallLeft = Bodies.rectangle(-30, window.innerHeight / 2, 60, window.innerHeight, { isStatic: true });
+            const wallRight = Bodies.rectangle(window.innerWidth + 30, window.innerHeight / 2, 60, window.innerHeight, { isStatic: true });
+
+            Composite.add(engine.world, [ground, wallLeft, wallRight]);
+
+            // Mouse Control
+            const mouse = Mouse.create(render.canvas);
+            const mouseConstraint = MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.2,
+                    render: { visible: false }
+                }
+            });
+            Composite.add(engine.world, mouseConstraint);
+            render.mouse = mouse;
+
+            // Spawn Stones
+            spawnStones();
+
+            // Run
+            Render.run(render);
+            runner = Runner.create();
+            Runner.run(runner, engine);
+
+            // Loop logic for Buggane
+            Events.on(engine, 'beforeUpdate', updateBuggane);
+            Events.on(engine, 'collisionStart', (event) => {
+                // Play sound on impact depending on force
+                event.pairs.forEach((pair) => {
+                    // Simple approximation of impact force
+                    if (pair.bodyA.speed > 1 || pair.bodyB.speed > 1) {
+                        playGrind();
+                    }
+                });
+            });
         }
-        Composite.add(engine.world, stones);
-    }
 
-    // --- BUGGANE LOGIC ---
-    function updateBuggane() {
-        let maxHeight = window.innerHeight;
-        
-        // Calculate highest stone
-        stones.forEach(stone => {
-            if (stone.position.y < maxHeight) maxHeight = stone.position.y;
-        });
+        function spawnStones() {
+            // Clear old stones
+            stones.forEach(b => Composite.remove(engine.world, b));
+            stones = [];
 
-        // Roof Target is roughly 20% from top
-        const targetY = window.innerHeight * 0.2;
-        
-        // Spite increases as you get closer to top
-        // Distance from bottom
-        const progress = (window.innerHeight - maxHeight) / (window.innerHeight - targetY);
-        let currentSpite = Math.max(0, (progress * 100) - 10); // Ramp up after 10% progress
-        
-        // --- MIC INPUT ADDS TO SPITE ---
-        if (isMicActive && analyser) {
-            analyser.getByteFrequencyData(dataArray);
-            let sum = 0;
-            for(let i=0; i<dataArray.length; i++) sum += dataArray[i];
-            const avg = sum / dataArray.length;
-            if (avg > 20) { // Threshold
-                currentSpite += avg; // Screaming makes him VERY angry
+            // Generate 20 irregular blocks
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * (window.innerWidth - 100) + 50;
+                const y = (window.innerHeight - 50) - (i * 30); // Stack them initially loosely
+                const width = 40 + Math.random() * 60;
+                const height = 30 + Math.random() * 40;
+
+                // Random polygon or rectangle
+                const stone = Bodies.rectangle(x, y, width, height, {
+                    restitution: 0.1, // Not too bouncy (heavy stone)
+                    friction: 0.8, // Grippy
+                    density: 0.005, // Heavy
+                    render: {
+                        fillStyle: '#444',
+                        strokeStyle: '#222',
+                        lineWidth: 2
+                    }
+                });
+
+                stones.push(stone);
+            }
+            Composite.add(engine.world, stones);
+        }
+
+        // --- BUGGANE LOGIC ---
+        function updateBuggane() {
+            let maxHeight = window.innerHeight;
+
+            // Calculate highest stone
+            stones.forEach(stone => {
+                if (stone.position.y < maxHeight) maxHeight = stone.position.y;
+            });
+
+            // Roof Target is roughly 20% from top
+            const targetY = window.innerHeight * 0.2;
+
+            // Spite increases as you get closer to top
+            // Distance from bottom
+            const progress = (window.innerHeight - maxHeight) / (window.innerHeight - targetY);
+            let currentSpite = Math.max(0, (progress * 100) - 10); // Ramp up after 10% progress
+
+            // --- MIC INPUT ADDS TO SPITE ---
+            if (isMicActive && analyser) {
+                analyser.getByteFrequencyData(dataArray);
+                let sum = 0;
+                for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+                const avg = sum / dataArray.length;
+                if (avg > 20) { // Threshold
+                    currentSpite += avg; // Screaming makes him VERY angry
+                }
+            }
+
+            currentSpite = Math.min(100, currentSpite);
+            spiteLevel = currentSpite;
+            spiteFill.style.height = `${spiteLevel}%`;
+
+            // Buggane Attack Probability
+            // At 100% spite, probability is high
+            const attackChance = spiteLevel * 0.0005; // Per frame
+
+            if (Math.random() < attackChance) {
+                triggerBugganeAttack();
             }
         }
 
-        currentSpite = Math.min(100, currentSpite);
-        spiteLevel = currentSpite;
-        spiteFill.style.height = `${spiteLevel}%`;
+        function triggerBugganeAttack() {
+            // Red Flash
+            document.body.style.backgroundColor = "#500";
+            setTimeout(() => document.body.style.backgroundColor = "#111", 100);
 
-        // Buggane Attack Probability
-        // At 100% spite, probability is high
-        const attackChance = spiteLevel * 0.0005; // Per frame
+            playGrind(); // Loud grind
 
-        if (Math.random() < attackChance) {
-            triggerBugganeAttack();
+            // Apply force to random stones
+            stones.forEach(stone => {
+                // Apply lateral force (Wind/Punch)
+                const forceX = (Math.random() - 0.5) * 0.5 * (spiteLevel / 100);
+                const forceY = (Math.random() - 0.5) * 0.1; // Mostly horizontal
+
+                Body.applyForce(stone, stone.position, { x: forceX, y: forceY });
+
+                // Change color momentarily
+                stone.render.fillStyle = "#d63031";
+                setTimeout(() => stone.render.fillStyle = "#444", 500);
+            });
         }
-    }
 
-    function triggerBugganeAttack() {
-        // Red Flash
-        document.body.style.backgroundColor = "#500";
-        setTimeout(() => document.body.style.backgroundColor = "#111", 100);
+        // --- MIC HANDLING ---
+        async function toggleMic() {
+            initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
 
-        playGrind(); // Loud grind
+            if (isMicActive) {
+                if (micStream) micStream.getTracks().forEach(t => t.stop());
+                isMicActive = false;
+                iconMicOff.style.display = 'block';
+                iconMicOn.style.display = 'none';
+                micBtn.classList.remove('active');
+            } else {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    micStream = stream;
+                    const source = audioCtx.createMediaStreamSource(stream);
+                    analyser = audioCtx.createAnalyser();
+                    analyser.fftSize = 64;
+                    dataArray = new Uint8Array(analyser.frequencyBinCount);
+                    source.connect(analyser); // Do not connect to destination
 
-        // Apply force to random stones
-        stones.forEach(stone => {
-            // Apply lateral force (Wind/Punch)
-            const forceX = (Math.random() - 0.5) * 0.5 * (spiteLevel / 100);
-            const forceY = (Math.random() - 0.5) * 0.1; // Mostly horizontal
-            
-            Body.applyForce(stone, stone.position, {x: forceX, y: forceY});
-            
-            // Change color momentarily
-            stone.render.fillStyle = "#d63031";
-            setTimeout(() => stone.render.fillStyle = "#444", 500);
-        });
-    }
-
-    // --- MIC HANDLING ---
-    async function toggleMic() {
-        initAudio();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        if (isMicActive) {
-            if (micStream) micStream.getTracks().forEach(t => t.stop());
-            isMicActive = false;
-            iconMicOff.style.display = 'block';
-            iconMicOn.style.display = 'none';
-            micBtn.classList.remove('active');
-        } else {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                micStream = stream;
-                const source = audioCtx.createMediaStreamSource(stream);
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 64;
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-                source.connect(analyser); // Do not connect to destination
-                
-                isMicActive = true;
-                iconMicOff.style.display = 'none';
-                iconMicOn.style.display = 'block';
-                micBtn.classList.add('active');
-            } catch(e) {
-                alert("Buggane cannot hear you (Mic Error)");
+                    isMicActive = true;
+                    iconMicOff.style.display = 'none';
+                    iconMicOn.style.display = 'block';
+                    micBtn.classList.add('active');
+                } catch (e) {
+                    alert("Buggane cannot hear you (Mic Error)");
+                }
             }
         }
-    }
 
-    // --- EVENTS ---
-    startScreen.addEventListener('click', () => {
-        startScreen.style.display = 'none';
-        initAudio();
-        initPhysics();
-        isRunning = true;
-    });
+        // --- EVENTS ---
+        startScreen.addEventListener('click', () => {
+            startScreen.style.display = 'none';
+            initAudio();
+            initPhysics();
+            isRunning = true;
+        });
 
-    titleBtn.addEventListener('click', () => {
-        modalOverlay.style.display = 'flex';
-    });
+        titleBtn.addEventListener('click', () => {
+            modalOverlay.style.display = 'flex';
+        });
 
-    closeModal.addEventListener('click', () => {
-        modalOverlay.style.display = 'none';
-    });
-    
-    micBtn.addEventListener('click', toggleMic);
-    resetBtn.addEventListener('click', spawnStones);
+        closeModal.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+        });
 
-    window.addEventListener('resize', () => {
-        // Simple reload on resize to prevent physics breaking
-        location.reload(); 
-    });
+        micBtn.addEventListener('click', toggleMic);
+        resetBtn.addEventListener('click', spawnStones);
 
-</script>
+        window.addEventListener('resize', () => {
+            // Simple reload on resize to prevent physics breaking
+            location.reload();
+        });
+
+    </script>
 </body>
+
 </html>
